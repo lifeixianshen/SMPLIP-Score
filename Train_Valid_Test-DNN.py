@@ -156,7 +156,7 @@ if __name__ == "__main__":
                 if args.y_col[0] in df.columns.values:
                     y = y + list(df[args.y_col[0]].values)
                 else:
-                    print("No such column %s in input file. " % args.y_col[0])
+                    print(f"No such column {args.y_col[0]} in input file. ")
 
             if i == 0:
                 X = df.values[:, :args.n_features]
@@ -255,7 +255,7 @@ if __name__ == "__main__":
 
             hist.to_csv(log, header=True, index=False, sep=",", float_format="%.4f")
             print("EPOCH:%d Loss:%.3f RMSE:%.3f PCC:%.3f LOSS_VAL:%.3f RMSE:%.3f PCC:%.3f LOSS_TEST:%.3f RMSE_TEST:%.3f PCC_TEST:%.3f"\
-			%(e, loss, rmse_train, pcc_train, loss_val, rmse_val, pcc_val, loss_test, rmse_test, pcc_test ))            
+            %(e, loss, rmse_train, pcc_train, loss_val, rmse_val, pcc_val, loss_test, rmse_test, pcc_test ))            
 
             if stopping[-1][1] - loss_val >= args.delta_loss:
                 print("Model improve from %.3f to %.3f. Save model to %s."
@@ -263,13 +263,9 @@ if __name__ == "__main__":
 
                 model.save(args.model)
                 stopping.append([e, loss_val])
-            else:
-                if e - stopping[-1][0] >= args.patience:
-                    print("Get best model at epoch = %d." % stopping[-1][0])
-                    break
-                else:
-                    pass
-
+            elif e - stopping[-1][0] >= args.patience:
+                print("Get best model at epoch = %d." % stopping[-1][0])
+                break
     else:
         scaler = joblib.load(args.scaler)
 
